@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Feature extends Model
+class Board extends Model
 {
-    protected $table="features";
+    protected $table="boards";
     protected $fillable=[
       'name','description','project_id',
     ];

@@ -13,11 +13,10 @@ class CreateFeaturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('features', function (Blueprint $table) {
+        Schema::create('boards', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->date('dealine')->nullable();
             $table->integer('project_id')->unsigned();
 
             $table->foreign('project_id')->references('id')->on('projects');
@@ -32,6 +31,6 @@ class CreateFeaturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('features');
+        Schema::dropIfExists('boards');
     }
 }

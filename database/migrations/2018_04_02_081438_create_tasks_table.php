@@ -17,8 +17,8 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->date('dealine')->nullable();
-            $table->integer('feature_id')->unsigned();
-            $table->foreign('feature_id')->references('id')->on('features');
+            $table->integer('board_id')->unsigned();
+            $table->foreign('board_id')->references('id')->on('boards');
             $table->timestamps();
         });
     }

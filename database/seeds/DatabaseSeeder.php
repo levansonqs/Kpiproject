@@ -12,22 +12,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          Model::unguard();
-         $tables = [
-             'users',
-             'projects',
-             'features',
-             'tasks',
-             'todos',
-             'members',
-             'comments'
-         ];
          DB::statement('SET FOREIGN_KEY_CHECKS=0');
-         foreach($tables as $table){
-             if (Schema::hasTable($table)) {
-                 DB::table($table)->truncate();
-             }
-         }
+
          $this->call(UsersTableSeeder::class);
+         $this->call(ProjectsTableSeeder::class);
+         $this->call(BoardsTableSeeder::class);
+         $this->call(TasksTableSeeder::class);
+         $this->call(MembersTableSeeder::class);
+
+         DB::statement('SET FOREIGN_KEY_CHECKS=1');
          Model::reguard();
     }
 }
