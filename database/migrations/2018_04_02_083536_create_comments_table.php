@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration
             $table->string('content');
             $table->integer('task_id')->unsigned();
             $table->integer('member_id')->unsigned();
+            $table->integer('comment_id')->unsigned()->nullable();
 
             $table->foreign('task_id')->references('id')->on('tasks');
             $table->foreign('member_id')->references('id')->on('members');

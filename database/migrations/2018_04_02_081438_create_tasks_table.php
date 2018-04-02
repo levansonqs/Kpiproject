@@ -16,6 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->date('dealine')->nullable();
             $table->integer('feature_id')->unsigned();
             $table->foreign('feature_id')->references('id')->on('features');
             $table->timestamps();
