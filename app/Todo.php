@@ -10,4 +10,8 @@ class Todo extends Model
     protected $fillable=[
         'description','task_id',
     ];
+    public function task(){
+        return $this->belongsTo('App\Task');
+    }
+
 }

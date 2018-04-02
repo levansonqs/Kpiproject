@@ -10,4 +10,10 @@ class Comment extends Model
     protected $fillable=[
         'content','task_id','member_id',
     ];
+    public function task(){
+        return $this->belongsTo('App\Task');
+    }
+    public function member(){
+        return $this->belongsTo('App\Member');
+    }
 }

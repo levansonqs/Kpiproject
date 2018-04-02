@@ -12,8 +12,8 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
-
-$factory->define(App\User::class, function (Faker $faker) {
+$faker = \Faker\Factory::create('vi_VI');
+$factory->define(App\User::class, function () use ($faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,

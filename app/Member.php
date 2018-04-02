@@ -10,4 +10,7 @@ class Member extends Model
     protected $fillable=[
         'user_id','project_id','task_id',
     ];
+    public function task(){
+        return $this->belongsTo('App\Member');
+    }
 }

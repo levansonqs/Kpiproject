@@ -12,6 +12,8 @@ class Feature extends Model
     ];
     public function project(){
         return $this->belongsTo('App\Project');
-
+    }
+    public function tasks(){
+        return $this->hasMany('App\Task');
     }
 }

@@ -13,7 +13,7 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'user_id',
+        'name'
     ];
 
     /**
@@ -24,10 +24,11 @@ class Project extends Model
     protected $hidden = [
     ];
 
-    public function user(){
-     return $this->belongsTo('App\User');
+    public function users(){
+        return $this->belongsToMany('App\User','users');
     }
     public function features(){
         return $this->hasMany("App\Feature");
     }
+
 }
