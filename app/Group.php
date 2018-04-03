@@ -10,7 +10,8 @@ class Group extends Model
     protected $fillable=[
         'name','permission_id'
     ];
-    public function members(){
-        return $this->hasMany();
+
+    public function permission(){
+        return $this->belongsTo('App\Permission');
     }
 }

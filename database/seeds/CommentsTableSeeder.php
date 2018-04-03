@@ -27,7 +27,6 @@ class CommentsTableSeeder extends Seeder
                 'comment_id' => NULL,
             ]);
 
-
         }
         $comments = Comment::pluck('id')->toArray();
         foreach ($comments as $cmt){
