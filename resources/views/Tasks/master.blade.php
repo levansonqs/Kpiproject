@@ -8,34 +8,34 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>StartUI - Premium Bootstrap 4 Admin Dashboard Template</title>
 
-    <link href="Tasks/img/favicon.144x144.html" rel="apple-touch-icon" type="image/png" sizes="144x144">
-    <link href="Tasks/img/favicon.114x114.html" rel="apple-touch-icon" type="image/png" sizes="114x114">
-    <link href="Tasks/img/favicon.72x72.html" rel="apple-touch-icon" type="image/png" sizes="72x72">
-    <link href="Tasks/img/favicon.57x57.html" rel="apple-touch-icon" type="image/png">
-    <link href="Tasks/img/favicon.html" rel="icon" type="image/png">
-    <link href="Tasks/img/favicon-2.html" rel="shortcut icon">
+    <link href="{{asset('Tasks/img/favicon.144x144.html')}}" rel="apple-touch-icon" type="image/png" sizes="144x144">
+    <link href="{{asset('Tasks/img/favicon.114x114.html')}}" rel="apple-touch-icon" type="image/png" sizes="114x114">
+    <link href="{{asset('Tasks/img/favicon.72x72.html')}}" rel="apple-touch-icon" type="image/png" sizes="72x72">
+    <link href="{{asset('Tasks/img/favicon.57x57.html')}}" rel="apple-touch-icon" type="image/png">
+    <link href="{{asset('Tasks/img/favicon.html')}}" rel="icon" type="image/png">
+    <link href="{{asset('Tasks/img/favicon-2.html')}}" rel="shortcut icon">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="Tasks/css/lib/lobipanel/lobipanel.min.css">
-    <link rel="stylesheet" href="Tasks/css/separate/vendor/lobipanel.min.css">
-    <link rel="stylesheet" href="Tasks/css/lib/jqueryui/jquery-ui.min.css">
-    <link rel="stylesheet" href="Tasks/css/separate/pages/widgets.min.css">
-    <link rel="stylesheet" href="Tasks/css/lib/font-awesome/font-awesome.min.css">
-    <link rel="stylesheet" href="Tasks/css/lib/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="Tasks/css/main.css">
-    <link rel="stylesheet" href="Tasks/style.css">
+    <link rel="stylesheet" href="{{asset('Tasks/css/lib/lobipanel/lobipanel.min.css')}}">
+    <link rel="stylesheet" href="{{asset('Tasks/css/separate/vendor/lobipanel.min.css')}}">
+    <link rel="stylesheet" href="{{asset('Tasks/css/lib/jqueryui/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="{{asset('Tasks/css/separate/pages/widgets.min.css')}}">
+    <link rel="stylesheet" href="{{asset('Tasks/css/lib/font-awesome/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('Tasks/css/lib/bootstrap/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('Tasks/css/main.css')}}">
+    <link rel="stylesheet" href="{{asset('Tasks/style.css')}}">
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
 
 <header class="site-header">
     <div class="container-fluid">
         <a href="#" class="site-logo">
-            <img class="hidden-md-down" src="Tasks/img/logo-2.png" alt="">
-            <img class="hidden-lg-down" src="Tasks/img/logo-2-mob.png" alt="">
+            <img class="hidden-md-down" src="{{asset('Tasks/img/logo-2.png')}}" alt="">
+            <img class="hidden-lg-down" src="{{asset('Tasks/img/logo-2-mob.png')}}" alt="">
         </a>
 
 
@@ -44,7 +44,7 @@
                 <div class="site-header-shown">
                     <div class="dropdown user-menu">
                         <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="Tasks/img/avatar-2-64.png" alt="">
+                            <img src="{{asset('Tasks/img/avatar-2-64.png')}}" alt="">
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
                             <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>Profile</a>
@@ -166,16 +166,15 @@
 
 
 
-<script src="Tasks/js/lib/jquery/jquery-3.2.1.min.js"></script>
-<script src="Tasks/js/lib/popper/popper.min.js"></script>
-<script src="Tasks/js/lib/tether/tether.min.js"></script>
-<script src="Tasks/js/lib/bootstrap/bootstrap.min.js"></script>
-<script src="Tasks/js/plugins.js"></script>
+<script src="{{asset('Tasks/js/lib/jquery/jquery-3.2.1.min.js')}}"></script>
+<script src="{{asset('Tasks/js/lib/popper/popper.min.js')}}"></script>
+<script src="{{asset('Tasks/js/lib/tether/tether.min.js')}}"></script>
+<script src="{{asset('Tasks/js/lib/bootstrap/bootstrap.min.js')}}"></script>
+<script src="{{asset('Tasks/js/plugins.js')}}"></script>
 
-<script type="text/javascript" src="Tasks/js/lib/jqueryui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="Tasks/js/lib/lobipanel/lobipanel.min.js"></script>
-<script type="text/javascript" src="Tasks/js/lib/match-height/jquery.matchHeight.min.js"></script>
-<script type="text/javascript" src="../../../www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="{{asset('Tasks/js/lib/jqueryui/jquery-ui.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('Tasks/js/lib/lobipanel/lobipanel.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('Tasks/js/lib/match-height/jquery.matchHeight.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         $('.panel').each(function () {
@@ -275,7 +274,7 @@
         });
     });
 </script>
-<script src="Tasks/js/app.js"></script>
+<script src="{{asset('')}}Tasks/js/app.js"></script>
 </body>
 
 <!-- Mirrored from themesanytime.com/startui/demo/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Apr 2018 02:03:04 GMT -->
