@@ -1,10 +1,10 @@
-<?php
+ <?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeaturesTable extends Migration
+class CreateBoardsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -21,6 +21,8 @@ class CreateFeaturesTable extends Migration
 
             $table->foreign('project_id')->references('id')->on('projects');
             $table->timestamps();
+
+
         });
     }
 
