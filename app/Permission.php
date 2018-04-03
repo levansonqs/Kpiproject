@@ -9,5 +9,4 @@ class Permission extends Model
     protected $fillable=[
         'permission'
     ];
-
 }
