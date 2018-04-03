@@ -13,7 +13,7 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     /**
@@ -29,6 +29,9 @@ class Project extends Model
     }
     public function boards(){
         return $this->hasMany("App\Board");
+    }
+    public function members(){
+        return $this->hasMany("App\Member");
     }
 
 }

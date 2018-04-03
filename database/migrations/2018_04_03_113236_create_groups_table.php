@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeaturesTable extends Migration
+class CreateGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateFeaturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('boards', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+        Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->integer('project_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
 
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('permission_id')->references('id')->on('permissions');
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -31,6 +32,8 @@ class CreateFeaturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('boards');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('groups');
+        Schema::enableForeignKeyConstraints();
     }
 }

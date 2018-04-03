@@ -13,6 +13,7 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
@@ -21,6 +22,7 @@ class CreateTasksTable extends Migration
             $table->foreign('board_id')->references('id')->on('boards');
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -30,6 +32,8 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('tasks');
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -8,7 +8,7 @@ class Todo extends Model
 {
     protected $table="todos";
     protected $fillable=[
-        'description','task_id',
+        'content','task_id',
     ];
     public function task(){
         return $this->belongsTo('App\Task');

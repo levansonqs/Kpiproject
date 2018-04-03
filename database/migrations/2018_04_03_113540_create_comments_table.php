@@ -24,6 +24,7 @@ class CreateCommentsTable extends Migration
             $table->foreign('member_id')->references('id')->on('members');
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -33,6 +34,8 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('comments');
+        Schema::enableForeignKeyConstraints();
     }
 }

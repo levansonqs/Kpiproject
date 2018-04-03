@@ -13,12 +13,14 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->date('dealine')->nullable();
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -28,6 +30,8 @@ class CreateProjectsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('projects');
+        Schema::enableForeignKeyConstraints();
     }
 }
