@@ -1,4 +1,4 @@
- <?php
+<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,8 +22,6 @@ class CreateBoardsTable extends Migration
 
             $table->foreign('project_id')->references('id')->on('projects');
             $table->timestamps();
-
-
         });
         Schema::enableForeignKeyConstraints();
     }
