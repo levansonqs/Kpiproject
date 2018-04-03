@@ -24,7 +24,7 @@ class CommentsTableSeeder extends Seeder
                 'content'=> $faker->sentence(mt_rand(4,20),true),
                 'task_id' => $tasks[array_rand($tasks)],
                 'member_id' => $members[array_rand($members)],
-                'comment_id' => '',
+                'comment_id' => NULL,
             ]);
 
 
@@ -32,8 +32,8 @@ class CommentsTableSeeder extends Seeder
         $comments = Comment::pluck('id')->toArray();
         foreach ($comments as $cmt){
             $comment_id =[NULL, $comments[array_rand($comments)]];
-            Comment::where('id',$cmt->id)->update([
-                'comment_id' => $comment_id
+            Comment::where('id',$cmt)->update([
+                'comment_id' => $comment_id[array_rand($comment_id)]
             ]);
         }
 

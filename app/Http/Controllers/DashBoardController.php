@@ -8,7 +8,7 @@ class DashBoardController extends Controller
 {
     public function dashboard()
     {
-        return view('Tasks.master');
+        return view('Tasks.dashboard');
     }
 
     public function logout()
@@ -16,4 +16,5 @@ class DashBoardController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+    public function
 }
