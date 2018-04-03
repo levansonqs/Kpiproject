@@ -11,7 +11,7 @@ class Task extends Model
         'title','feature_id',
     ];
     public function feature(){
-        return $this->belongsTo('App\Feature');
+        return $this->belongsTo('App\Board');
     }
     public function members(){
         return $this->hasMany('App\Member');

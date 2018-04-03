@@ -27,8 +27,8 @@ class Project extends Model
     public function users(){
         return $this->belongsToMany('App\User','users');
     }
-    public function features(){
-        return $this->hasMany("App\Feature");
+    public function boards(){
+        return $this->hasMany("App\Board");
     }
 
 }
