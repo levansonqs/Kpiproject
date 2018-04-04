@@ -10,6 +10,7 @@ class DashBoardController extends Controller
     public function dashboard()
 
     {
+
         return view('Tasks.dashboard');
     }
 
