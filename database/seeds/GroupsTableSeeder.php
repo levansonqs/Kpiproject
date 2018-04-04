@@ -16,12 +16,9 @@ class GroupsTableSeeder extends Seeder
         if (Schema::hasTable('groups')) {
             DB::table('groups')->truncate();
         }
-        $permissions = Permission::pluck('id')->toArray();
-        for($i = 1; $i < 10; $i++){
-            $permission_id = $permissions[array_rand($permissions)];
+        for($i = 1; $i < 50; $i++){
             Group::create([
-                'name' => $faker->name,
-                'permission_id' => $permission_id
+                'name' => $faker->name
             ]);
         }
 

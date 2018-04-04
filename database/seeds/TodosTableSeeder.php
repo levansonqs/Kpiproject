@@ -17,12 +17,15 @@ class TodosTableSeeder extends Seeder
         }
 
         $faker = \Faker\Factory::create('vi_VI');
-        $tasks = Task::pluck('id')->toArray();
-        for($i = 1;$i < mt_rand(1,5); $i++){
-            Todo::create([
-                'content'=> $faker->sentence(mt_rand(4,20),true),
-                'task_id' => $tasks[array_rand($tasks)]
-            ]);
+        $tasks = Task::all();
+        foreach ($tasks as $task){
+            for($i = 1;$i < mt_rand(1,5); $i++){
+                Todo::create([
+                    'content'=> $faker->sentence(mt_rand(4,20),true),
+                    'task_id' => $task->id
+                ]);
+            }
         }
+
     }
 }

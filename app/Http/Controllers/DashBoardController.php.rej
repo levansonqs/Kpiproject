@@ -1,0 +1,8 @@
+diff a/app/Http/Controllers/DashBoardController.php b/app/Http/Controllers/DashBoardController.php	(rejected hunks)
+@@ -18,5 +18,5 @@
+         Auth::logout();
+         return redirect()->route('login');
+     }
+-    public function
++
+ }

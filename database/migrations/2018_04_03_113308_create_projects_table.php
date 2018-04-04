@@ -18,6 +18,11 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->date('dealine')->nullable();
+            $table->integer('member_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
+
+            $table->foreign('member_id')->references('id')->on('members');
+            $table->foreign('permission_id')->references('id')->on('permissions');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

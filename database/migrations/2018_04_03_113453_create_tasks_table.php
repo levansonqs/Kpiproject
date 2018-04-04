@@ -20,6 +20,8 @@ class CreateTasksTable extends Migration
             $table->date('dealine')->nullable();
             $table->integer('board_id')->unsigned();
             $table->foreign('board_id')->references('id')->on('boards');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\Project;
 class ProjectsTableSeeder extends Seeder
 {
     /**
@@ -14,7 +14,17 @@ class ProjectsTableSeeder extends Seeder
         if (Schema::hasTable('projects')) {
             DB::table('projects')->truncate();
         }
-
-        $users = factory(\App\Project::class,20)->create();
+        $faker = \Faker\Factory::create('vi_VI');
+        $members = \App\Member::all();
+        foreach ($members as $mem){
+            for($i = 1;$i < 5; $i++){
+                Project::create([
+                    'name' => $faker->domainName,
+                    'dealine' => $faker->dateTimeBetween('+1 week', '+5 month'),
+                    'member_id' => $mem->id,
+                    'permission_id' => mt_rand(1,3)
+                ]);
+            }
+        }
     }
 }

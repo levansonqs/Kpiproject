@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Board;
 use App\Task;
-
+use App\User;
 class TasksTableSeeder extends Seeder
 {
     /**
@@ -18,14 +18,12 @@ class TasksTableSeeder extends Seeder
         }
 
         $faker = \Faker\Factory::create('vi_VI');
-        $boards = Board::pluck('id')->toArray();
-        for ($i = 0; $i < 20; $i++) {
-            $board_id = $boards[array_rand($boards)];
+        $boards = Board::all();
+        foreach($boards as $board)
             Task::create([
                 'title' => $faker->sentence(mt_rand(4,10),true),
                 'dealine' => $faker->dateTimeBetween('+1 week', '+5 month'),
-                'board_id' => $board_id
+                'board_id' => $board->id,
             ]);
         }
-    }
 }

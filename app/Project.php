@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $table= 'projects';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name','dealine','member_id','permission_id'
     ];
 
     /**
@@ -24,14 +23,6 @@ class Project extends Model
     protected $hidden = [
     ];
 
-    public function users(){
-        return $this->belongsToMany('App\User','users');
-    }
-    public function boards(){
-        return $this->hasMany("App\Board");
-    }
-    public function members(){
-        return $this->hasMany("App\Member");
-    }
+
 
 }

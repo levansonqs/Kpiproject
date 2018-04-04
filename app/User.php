@@ -27,10 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function projects(){
-        return $this->belongsToMany('App\Project','members');
+    public function tasks(){
+        return $this->hasMany('App\Task');
     }
     public function members(){
-        return $this->belongsTo('App\User');
+        return $this->hasMany('App\Member');
     }
 }
