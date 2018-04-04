@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{{asset('Tasks/css/lib/bootstrap/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('Tasks/css/main.css')}}">
     <link rel="stylesheet" href="{{asset('Tasks/style.css')}}">
+    <script src="{{asset('Tasks/js/lib/jquery/jquery-3.2.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('Tasks/js/lib/jqueryui/jquery-ui.min.js')}}"></script>
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
 
@@ -41,13 +43,13 @@
 
 
 
-<script src="{{asset('Tasks/js/lib/jquery/jquery-3.2.1.min.js')}}"></script>
+
+
 <script src="{{asset('Tasks/js/lib/popper/popper.min.js')}}"></script>
 <script src="{{asset('Tasks/js/lib/tether/tether.min.js')}}"></script>
 <script src="{{asset('Tasks/js/lib/bootstrap/bootstrap.min.js')}}"></script>
 <script src="{{asset('Tasks/js/plugins.js')}}"></script>
 
-<script type="text/javascript" src="{{asset('Tasks/js/lib/jqueryui/jquery-ui.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('Tasks/js/lib/lobipanel/lobipanel.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('Tasks/js/lib/match-height/jquery.matchHeight.min.js')}}"></script>
 <script>
@@ -150,6 +152,7 @@
     });
 </script>
 <script src="{{asset('')}}Tasks/js/app.js"></script>
+@yield('script')
 </body>
 
 <!-- Mirrored from themesanytime.com/startui/demo/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Apr 2018 02:03:04 GMT -->

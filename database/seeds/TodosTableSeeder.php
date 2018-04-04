@@ -21,7 +21,7 @@ class TodosTableSeeder extends Seeder
         foreach ($tasks as $task){
             for($i = 1;$i < mt_rand(1,5); $i++){
                 Todo::create([
-                    'content'=> $faker->sentence(mt_rand(4,20),true),
+                    'content'=> $faker->sentence(mt_rand(4,15),true),
                     'task_id' => $task->id
                 ]);
             }

@@ -13,7 +13,7 @@ class Comment extends Model
     public function task(){
         return $this->belongsTo('App\Task');
     }
-    public function member(){
-        return $this->belongsTo('App\Member');
+    public function user(){
+        return $this->belongsTo('App\User');
     }
 }

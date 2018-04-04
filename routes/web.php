@@ -22,4 +22,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'dashboard','middleware'=>'auth'],function(){
     Route::get('/','DashBoardController@dashboard');
     Route::get('/logout','DashBoardController@logout')->name('logout');
+    Route::get('project_detail/{id}','ProjectsController@index');
 });

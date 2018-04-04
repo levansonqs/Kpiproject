@@ -10,4 +10,16 @@ class Task extends Model
     protected $fillable=[
         'title','dealine','board_id','user_id'
     ];
+    public function board(){
+        return $this->belongsTo('App\Board');
+    }
+    public function todos(){
+        return $this->hasMany('App\Todo');
+    }
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }
 }

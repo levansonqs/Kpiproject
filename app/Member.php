@@ -12,4 +12,10 @@ class Member extends Model
     public function projects(){
         return $this->hasMany('App\Project');
     }
+    public function group(){
+        return $this->belongsTo('App\Group');
+    }
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 }
