@@ -17,9 +17,6 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('permission_id')->unsigned();
-
-            $table->foreign('permission_id')->references('id')->on('permissions');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

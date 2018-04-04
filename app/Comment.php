@@ -8,7 +8,7 @@ class Comment extends Model
 {
     protected $table="comments";
     protected $fillable=[
-        'content','task_id','member_id',
+        'content','task_id','user_id',
     ];
     public function task(){
         return $this->belongsTo('App\Task');

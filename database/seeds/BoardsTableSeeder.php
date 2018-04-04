@@ -18,14 +18,15 @@ class BoardsTableSeeder extends Seeder
         }
 
         $faker = \Faker\Factory::create('vi_VI');
-        $projects = Project::pluck('id')->toArray();
-        for ($i = 0; $i < 20; $i++){
-            $project_id = $projects[array_rand($projects)];
-            Board::create([
-                'name' => $faker->name,
-                'description' => $faker->sentence(mt_rand(4,10),true),
-                'project_id' => $project_id
-            ]);
+        $projects = Project::all();
+        foreach($projects as $pj){
+            for($i = 1; $i < 5; $i++){
+                Board::create([
+                    'name' => $faker->name,
+                    'description' => $faker->sentence(mt_rand(4,10),true),
+                    'project_id' => $pj->id
+                ]);
+            }
         }
     }
 }

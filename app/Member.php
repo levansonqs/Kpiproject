@@ -6,21 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
-    protected $table="members";
     protected $fillable=[
-        'user_id','project_id','task_id','group_id'
+        'user_id','group_id'
     ];
-    public function group(){
-        return $this->belongsTo('App\Group');
+    public function projects(){
+        return $this->hasMany('App\Project');
     }
-    public function task(){
-        return $this->belongsTo('App\Member');
-    }
-    public function project(){
-        return $this->belongsTo('App\Project');
-    }
-    public function user(){
-        return $this->belongsTo('App\User');
-    }
-
 }

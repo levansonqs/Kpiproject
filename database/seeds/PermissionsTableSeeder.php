@@ -15,9 +15,9 @@ class PermissionsTableSeeder extends Seeder
             DB::table('permissions')->truncate();
         }
         $permissions = [
-            ['permission' => 'Private'],
-            ['permission' => 'Public'],
-            ['permission' => 'Protected'],
+            ['permission' => 'Private'],//riêng tư
+            ['permission' => 'Public'],// công khai
+            ['permission' => 'Protected'], //chir trong nhóm nhìn thấy
         ];
         foreach ($permissions as $permission){
             Permission::create($permission);

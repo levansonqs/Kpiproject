@@ -21,9 +21,4 @@ $factory->define(App\User::class, function () use ($faker) {
         'remember_token' => str_random(10),
     ];
 });
-$factory->define(App\Project::class,function () use ($faker){
-    return [
-        'name' => $faker->domainName,
-        'dealine' => $faker->dateTimeBetween('+1 week', '+5 month'),
-    ];
-});
+

@@ -20,18 +20,22 @@ class MembersTableSeeder extends Seeder
             DB::table('members')->truncate();
         }
         $users = User::pluck('id')->toArray();
-        $projects = Project::pluck('id')->toArray();
-        $tasks = Task::pluck('id')->toArray();
         $groups = Group::pluck('id')->toArray();
-        for ($i = 0; $i < 20; $i++) {
-            $task_id =[NULL, $tasks[array_rand($tasks)]];
-            $project_id =[NULL, $projects[array_rand($projects)]];
-            Member::create([
-                'user_id' => $users[array_rand($users)],
-                'group_id' => $groups[array_rand($groups)],
-                'project_id' => $project_id[array_rand($project_id)],
-                'task_id' => $task_id[array_rand($task_id)],
-            ]);
+        foreach ($users as $key => $u){
+            for ($i = 0; $i < 10; $i++) {
+                Member::create([
+                    'user_id' => $u,
+                    'group_id' => $groups[array_rand($groups)],
+                ]);
+            }
+        }
+        foreach ($groups as $key => $gr){
+            for ($i = 0; $i < 10; $i++) {
+                Member::create([
+                    'user_id' => $users[array_rand($users)],
+                    'group_id' => $gr
+                ]);
+            }
         }
     }
 }

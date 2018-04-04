@@ -9,10 +9,12 @@ class DashBoardController extends Controller
 {
     public function dashboard()
     {
-//        $members = Member::where('user_id',3)->with('group')->get();
-//           foreach($members as $mb){
-//               dump($mb->group);
-//           }
+        $members = Member::where('user_id',1)
+            ->with(['group' => function($query){
+                    $query->where('permission_id',1);
+            }])
+            ->get();
+               dd($members);
 
         return view('Tasks.dashboard');
     }
