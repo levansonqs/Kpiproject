@@ -12,12 +12,12 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
-$faker = \Faker\Factory::create('vi_VI');
+$faker = \Faker\Factory::create('vi_VN');
 $factory->define(App\User::class, function () use ($faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => '123123123', // secret
+        'password' => bcrypt('123123123'),
         'remember_token' => str_random(10),
     ];
 });
