@@ -22,7 +22,7 @@ class MembersTableSeeder extends Seeder
         $users = User::pluck('id')->toArray();
         $groups = Group::pluck('id')->toArray();
         foreach ($users as $key => $u){
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 1; $i < 10; $i++) {
                 Member::create([
                     'user_id' => $u,
                     'group_id' => $groups[array_rand($groups)],
@@ -30,7 +30,7 @@ class MembersTableSeeder extends Seeder
             }
         }
         foreach ($groups as $key => $gr){
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 1; $i < 10; $i++) {
                 Member::create([
                     'user_id' => $users[array_rand($users)],
                     'group_id' => $gr
