@@ -16,7 +16,7 @@ class CreateTodosTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('todos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
+            $table->text('content');
 
             $table->integer('task_id')->unsigned();
             $table->foreign('task_id')->references('id')->on('tasks');

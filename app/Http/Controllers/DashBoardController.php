@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Group;
 use App\Project;
 use Illuminate\Http\Request;
@@ -61,5 +62,6 @@ class DashBoardController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
 
 }

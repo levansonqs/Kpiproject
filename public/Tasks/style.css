@@ -1,1 +1,46 @@
 .content{margin-top:100px}
+div.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
+    height: 800px;
+
+}
+
+div.scrollmenu .tasks {
+    display: inline-block;
+    width:400px;
+    padding: 14px;
+    text-decoration: none;
+}
+textarea.card-title{
+    font-size: 1rem  !important;
+    font-weight: bold;
+    border: none  ;
+    margin: 0  !important;
+    padding: 5px 5px 0px  !important;
+    background: none !important;
+    cursor: pointer ;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+textarea.card-task{
+    margin: 5px 0px  !important;
+    padding: 5px 5px 0px  !important;
+    cursor: pointer ;
+    overflow: hidden;
+    background: #d6dadc !important;
+    word-wrap: break-word;
+}
+
+textarea.onclick{
+    border: 1px solid gray !important;
+    background: none !important;
+    cursor:text !important;
+}
+.card-body {
+    padding: 10px 1.25rem 5px !important;
+}
+a.save-task, a.cancel-task{
+    display: none;
+}

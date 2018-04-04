@@ -23,6 +23,14 @@ class Project extends Model
     protected $hidden = [
     ];
 
-
+    public function member(){
+        return $this->belongsTo('App\Member');
+    }
+    public function boards(){
+        return $this->hasMany('App\Board');
+    }
+    public function permission(){
+        return $this->belongsTo('App\Permission');
+    }
 
 }

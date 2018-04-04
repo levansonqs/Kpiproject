@@ -16,10 +16,10 @@ class ProjectsTableSeeder extends Seeder
         }
         $faker = \Faker\Factory::create('vi_VI');
         $members = \App\Member::all();
-//
             foreach ($members as $mem){
                 for($i = 1;$i < mt_rand(1,3); $i++){
-                Project::create([
+                    Project::create([
+
                     'name' => $faker->domainName,
                     'description' => 'Description',
                     'dealine' => $faker->dateTimeBetween('+1 week', '+5 month'),
