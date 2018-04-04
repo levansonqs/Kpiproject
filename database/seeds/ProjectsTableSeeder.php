@@ -19,7 +19,9 @@ class ProjectsTableSeeder extends Seeder
             foreach ($members as $mem){
                 for($i = 1;$i < mt_rand(1,3); $i++){
                     Project::create([
+
                     'name' => $faker->domainName,
+                    'description' => 'Description',
                     'dealine' => $faker->dateTimeBetween('+1 week', '+5 month'),
                     'member_id' => $mem->id,
                     'permission_id' => mt_rand(1,3)
