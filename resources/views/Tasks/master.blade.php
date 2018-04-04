@@ -14,7 +14,7 @@
     <link href="{{asset('Tasks/img/favicon.57x57.html')}}" rel="apple-touch-icon" type="image/png">
     <link href="{{asset('Tasks/img/favicon.html')}}" rel="icon" type="image/png">
     <link href="{{asset('Tasks/img/favicon-2.html')}}" rel="shortcut icon">
-
+    <meta name="_token" content="{!! csrf_token() !!}" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -150,6 +150,10 @@
     });
 </script>
 <script src="{{asset('')}}Tasks/js/app.js"></script>
+
+
+    @yield('script')
+
 </body>
 
 <!-- Mirrored from themesanytime.com/startui/demo/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Apr 2018 02:03:04 GMT -->
