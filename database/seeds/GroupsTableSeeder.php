@@ -12,11 +12,11 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create('vi_VI');
+        $faker = \Faker\Factory::create('vi_VN');
         if (Schema::hasTable('groups')) {
             DB::table('groups')->truncate();
         }
-        for($i = 1; $i < 50; $i++){
+        for($i = 1; $i < 20; $i++){
             Group::create([
                 'name' => $faker->name
             ]);

@@ -16,10 +16,10 @@ class TodosTableSeeder extends Seeder
             DB::table('todos')->truncate();
         }
 
-        $faker = \Faker\Factory::create('vi_VI');
+        $faker = \Faker\Factory::create('vi_VN');
         $tasks = Task::all();
         foreach ($tasks as $task){
-            for($i = 1;$i < mt_rand(1,5); $i++){
+            for($i = 1;$i < mt_rand(2,5); $i++){
                 Todo::create([
                     'content'=> $faker->sentence(mt_rand(4,15),true),
                     'task_id' => $task->id

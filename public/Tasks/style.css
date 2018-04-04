@@ -41,6 +41,4 @@ textarea.onclick{
 .card-body {
     padding: 10px 1.25rem 5px !important;
 }
-a.save-task, a.cancel-task{
-    display: none;
-}
+

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Board;
 use App\Project;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,6 @@ class ProjectsController extends Controller
             'permission',
         ];
         $project = Project::with($relate)->findOrFail($id);
-
         return view('Tasks.project_detail',compact('project'));
     }
     /**
@@ -26,11 +26,14 @@ class ProjectsController extends Controller
      * param $id - id project
      * @return \Illuminate\Http\Response
      */
-    public function add_board(Request $request){
+    public function createBoard(Request $request){
         if($request->ajax()){
-            $project = Project::findOrFail($request->project_id);
+            $board = new Board;
+            $board->name = $request->name;
+            $board->description = $request->description;
+            $board->project_id = $request->project_id;
+            $board->save();
+            return json_encode($board);
         }
-
-
     }
 }
