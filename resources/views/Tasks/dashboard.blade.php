@@ -71,7 +71,7 @@
     </div>
     @endforeach
     <div class="col-sm-4 col-md-3 col-xl-2">
-        <a class="addgroup">
+        <a href="{{ $group['id'] }}" class="addgroup">
             <div class="statistic-box red">
                 <div>
                     <div class="number">
@@ -147,6 +147,7 @@
         </div>
     </div>
 </div>
+
 @section('script')
     <script>
         $(document).ready(function(){
@@ -214,5 +215,6 @@
                 })
             })
         });
+
     </script>
 @stop>

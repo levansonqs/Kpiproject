@@ -33,7 +33,23 @@ class ProjectsController extends Controller
             $board->description = $request->description;
             $board->project_id = $request->project_id;
             $board->save();
-            return json_encode($board);
+            return response()->json($board);
+        }
+    }
+    public function updateBoard(Request $request){
+//        return $request->all();
+        if($request->ajax()){
+            $board = Board::findOrFail($request->board_id);
+            $board->name = $request->name;
+            $board->save();
+            return response()->json($board);
+        }
+    }
+    public function deleteBoard(Request $request){
+        if($request->ajax()){
+            $board = Board::findOrFail($request->id);
+            $board->delete();
+            return response()->json('ok');
         }
     }
 }
