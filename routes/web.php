@@ -29,6 +29,7 @@ Route::group(['prefix' => 'dashboard','middleware'=>'auth'],function(){
     Route::post('createboard','ProjectsController@createBoard')->name('createboard');
     Route::post('updateboard','ProjectsController@updateBoard')->name('updateboard');
 
+    Route::post('detailTask','TasksController@detailTask')->name('detailtask');
     Route::post('createTask','TasksController@createTask')->name('createtask');
     Route::post('deleteTask','TasksController@deleteTask')->name('deletetask');
 

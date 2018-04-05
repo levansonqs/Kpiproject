@@ -22,8 +22,8 @@ class CreateProjectsTable extends Migration
             $table->integer('member_id')->unsigned();
             $table->integer('permission_id')->unsigned();
 
-            $table->foreign('member_id')->references('id')->on('members');
-            $table->foreign('permission_id')->references('id')->on('permissions');
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
