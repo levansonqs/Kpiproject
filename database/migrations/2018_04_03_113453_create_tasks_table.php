@@ -19,9 +19,9 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->date('dealine')->nullable();
             $table->integer('board_id')->unsigned();
-            $table->foreign('board_id')->references('id')->on('boards');
+            $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

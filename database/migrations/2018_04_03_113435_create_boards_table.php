@@ -20,7 +20,7 @@ class CreateBoardsTable extends Migration
             $table->string('description')->nullable();
             $table->integer('project_id')->unsigned();
 
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->timestamps();
 
 

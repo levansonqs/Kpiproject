@@ -19,7 +19,7 @@ class CreateTodosTable extends Migration
             $table->text('content');
 
             $table->integer('task_id')->unsigned();
-            $table->foreign('task_id')->references('id')->on('tasks');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

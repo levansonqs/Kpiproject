@@ -1,6 +1,7 @@
 @extends('Tasks.master')
 @section('content')
     <div class="container-fluid container-scroll">
+        <h3>{{$project->name}}</h3>
         <div class="addrow">
             <button type="button" class="btn btn-info" id="btn-add-board">Thêm bảng</button> <br><br>
         </div>
@@ -10,19 +11,24 @@
                         <div class="tasks">
                             <div class="card" >
                                 <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="task-row">
-                                            <textarea readonly class="card-title form-control edit-area" >{{$boards->name}}</textarea>
+                                    <ul class="list-group list-group-flush" >
+                                        <li class="task-row" >
+                                            <textarea readonly class="card-title form-control edit-area" id="{{$boards->id}}"  >{{$boards->name}}</textarea>
                                         </li>
                                         @foreach($boards->tasks as $task)
                                             <li class="task-row">
-                                                <textarea readonly class="card-task form-control" >{{$task->title}}</textarea>
+                                                <textarea readonly class="card-task form-control" id="{{$task->id}}">{{$task->title}}</textarea>
+                                                <a class="delete-task"  data-id="{{$task->id}}"><i  class=" far fa-trash-alt fa-sm"></i></a>
                                             </li>
+
                                         @endforeach
                                     </ul>
                                     <a class="add-task">Thêm thẻ</a>
                                 </div>
                             </div>
+                            <a class="action"  data-id="{{$boards->id}}"><i  class=" far fa-edit fa-sm"></i></a>
+
+
                         </div>
                     @endforeach
              @endif
@@ -41,7 +47,7 @@
                     <form id="fm-create-board" action="">
                         <div class="form-group">
                             <label for="name">Tên bảng</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input type="text" class="form-control" id="name" name="name" >
                         </div>
                         <div class="form-group">
                             <label for="description">Mô tả</label>
@@ -51,9 +57,48 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="save">Save</button>
+                    <button type="submit" class="btn btn-primary" id="save-board">Save</button>
                 </div>
             </div>
+        </div>
+    </div>
+        <div class="modal fade " id="md-detail-task" tabindex="1" role="dialog" aria-labelledby="modalDetailTask" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalDetailTask">Xóa !</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+    <div class="modal fade" id="md-del-task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa !</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Bạn có thực sự muốn xóa mục này !.</p>
+                        <p>Ấn nút delete để xóa?</p>
+                        <p class="debug-url"></p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a  id="comfirm-del-task" class="btn btn-danger btn-ok" >Delete</a>
+                    </div>
+                </div>
         </div>
     </div>
 @endsection
@@ -61,76 +106,168 @@
     <script>
 
         $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
 
-            // event on focusin and focusout edit area
-            $('.edit-area').on('focusin',function(){
+
+            $(document).on('click','#btn-add-board',function(){
+                $('#md-create-board').modal('show');
+            });
+            $('#save-board').on('click',function(e){
+                e.preventDefault();
+
+                var formData = {
+                    'name' : $('input[name=name]').val(),
+                    'description' : $('input[name=description]').val(),
+                    'project_id' : '{{ $project->id }}'
+                };
+                //save board
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('createboard') }}',
+                    data: formData,
+                    datatype:'json',
+                    success: function(data){
+                        console.log(data);
+                        $('#md-create-board').modal('hide');
+                        $('#fm-create-board').trigger('reset');
+                        $('.scrollmenu').append("<div class='tasks'>" +
+                            "                            <div class='card' >" +
+                            "                                <div class='card-body'>" +
+                            "                                    <ul class='list-group list-group-flush' >" +
+                            "                                        <li class='task-row'>" +
+                            "                                            <textarea readonly class='card-title form-control edit-area' id="+data.id+">"+data.name+"</textarea>" +
+                            "                                        </li>" +
+                            "                                    </ul>" +
+                            "                                    <a class='add-task'>Thêm thẻ</a>" +
+                            "                                </div>" +
+                            "                            </div>" +
+                            "                        </div>");
+                    }
+                });
+            });
+            //even on name board
+            $(document).on('click','.edit-area',function(){
+                $('.edit-area').attr('readonly');
+                $('.edit-area').removeClass('onclick');
+                $('#area-temp').remove();
+                $('a.add-task').show();
+                var board_id = $(this).attr('id');
                 $('.action-row').remove();//hide btn save and cancel another
-                $('#area-temp').remove();//remove textarea temp
-                $('a.add-task').show();//show btn add task
                 $(this).removeAttr('readonly');
                 $(this).addClass('onclick');//style on focus textarea
-                $(this).parent().append("<div class='action-row my-2'><a id='save-task' class='btn btn-sm btn-primary  p-x-5 mx-1'>Lưu</a>" +
-                                         "<a id='cancel-task' class='btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a></div>");
+                $(this).parent().append("<div class='action-row my-2'><a class='btn btn-sm btn-primary btn-update-board p-x-5 mx-1' id='"+board_id+"'>Lưu</a>" +
+                    "<a id='cancel-board' class='btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a></div>");
             });
-            $('.edit-area').on('focusout',function(){
-                $('.action-row').remove();
-                $('#area-temp').remove();
-                $(this).attr('readonly');
-                $(this).removeClass('onclick');
-                $(this).parent().find('.action-row').remove();
+            //even update board
+            $(document).on('click','.btn-update-board',function() {
+                var board_id = $(this).attr('id');
+                var name = $('#'+board_id).val();
+                //save task
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('updateboard') }}',
+                    data: {
+                        name:name,
+                        board_id : board_id
+                    },
+                    datatype:'json',
+                    success:function(data){
+                        console.log(data);
+                        $('textarea#'+data.id).attr('readonly');
+                        $('textarea#'+data.id).removeClass('onclick');
+                        $('.action-row').remove();
+                        $('a.add-task').show();
+                    }
+                });
             });
 
-            // event on add task
-            $('a.add-task').on('click',function(){
+
+            //even  create task
+            $(document).on('click','.add-task',function(){
+                $('.edit-area').attr('readonly');
+                $('.edit-area').removeClass('onclick');
                 $('.action-row').remove();
                 $('a.add-task').show();
                 $('#area-temp').remove();
                 $(this).hide();
                 $(this).parent().find('.list-group').append(
                     "<li class='task-row'>"+
-                        "<textarea  id='area-temp' class='card-task form-control  onclick'></textarea>" +
-                        "<div class='action-row my-2'>" +
-                            "<a id='save-task' class='btn btn-sm btn-primary  p-x-5 mx-1'>Lưu</a>" +
-                            "<a id='cancel-task' class='btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a>"+
-                        "</div>"+
+                    "<textarea  id='area-temp' class='card-task form-control new-task onclick'></textarea>" +
+                    "<div class='action-row my-2'>" +
+                    "<a id='save-task' class='btn btn-sm btn-primary  p-x-5 mx-1'>Lưu</a>" +
+                    "<a id='cancel-task' class='btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a>"+
+                    "</div>"+
                     "</li>"
                 );
-             });
-            // $('#area-temp').on('focusin',function(){
-            //     alert('bbbbbb');
-            // });
-            // $('#area-temp').on('focusin',function(){
-            //     alert('aaaa');
-            //     $(this).parent().remove();
-            // });
-
-            $('#btn-add-board').on('click',function(){
-               $('#md-create-board').modal('show');
-               $('#save').on('click',function(e){
-                   e.preventDefault();
-                   $.ajaxSetup({
-                       headers: {
-                           'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                       }
-                   });
-                   var formData = {
-                       'name' : $('input[name=name]').val(),
-                       'description' : $('input[name=description]').val(),
-                       'project_id' : '{{ $project->id }}'
-                   };
-                   $.ajax({
-                       type:'POST',
-                       url: '{{ route('createboard') }}',
-                       data: formData,
-                       datatype:'json',
-                       success: function(data){
-                           console.log(data);
-                           $('#md-create-board').modal('hide');
-                       }
-                   });
-               });
+            });
+            $(document).on('click','#save-task',function(){
+                var name = $('#area-temp').val();
+                var board_id = $(this).parents('ul.list-group').find('.card-title').attr('id');
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('createtask') }}',
+                    data:{name :name,board_id:board_id},
+                    datatype:'json',
+                    success: function(data) {
+                        console.log(data);
+                        $('.new-task').removeClass('onclick');
+                        $('.new-task').attr({'readonly':true});
+                        $('.action-row').remove();
+                        $('#area-temp').parent().append("<a class='delete-task'  data-id='"+data.id+"'><i  class=' far fa-trash-alt fa-sm'></i></a>");
+                        $('#area-temp').attr('id',data.id);
+                        $('a.add-task').show();
+                    }
+                });
+            });
+            $(document).on('click','a.action',function(){
+                // alert($(this).attr('data-id'));
             });
 
+            $(document).on('click','a.delete-task',function(){
+                var task_id = $(this).attr('data-id');
+                $('#comfirm-del-task').attr('data-id',task_id);
+                $('#md-del-task').modal('show');
+            });
+            $(document).on('click','a#comfirm-del-task',function(){
+                var task_id = $(this).attr('data-id');
+                alert(task_id);
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('deletetask')}}',
+                    data:{task_id :task_id},
+                    datatype:'json',
+                    success: function(data) {
+                        console.log(data);
+                        $('#md-del-task').modal('hide');
+                        $('textarea#'+data.id).parent().remove();
+                    }
+                });
+            });
+
+            //event view detail task
+            $(document).on('click','textarea[readonly]',function(){
+               $('#md-detail-task').modal('show');
+               var task_id = $(this).attr('id');
+               console.log(task_id);
+               $.ajax({
+                   type:'POST',
+                   url: '{{route('detailtask')}}',
+                   data: {task_id:task_id},
+                   datatype:'json',
+                   success:function(data){
+                       console.log(data);
+                   }
+               });
+            });
 
         });
     </script>

@@ -12,6 +12,7 @@ div.scrollmenu .tasks {
     width:400px;
     padding: 14px;
     text-decoration: none;
+    position: relative;
 }
 textarea.card-title{
     font-size: 1rem  !important;
@@ -30,7 +31,7 @@ textarea.card-task{
     padding: 5px 5px 0px  !important;
     cursor: pointer ;
     overflow: hidden;
-    background: #d6dadc !important;
+    background: #eceff4 !important;
     word-wrap: break-word;
 }
 
@@ -42,3 +43,21 @@ textarea.onclick{
 .card-body {
     padding: 10px 1.25rem 5px !important;
 }
+
+a.action{
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+}
+li.task-row{
+    position: relative;
+}
+.delete-task{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1rem;
+}
+
