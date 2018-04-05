@@ -1,4 +1,5 @@
 .content{margin-top:100px}
+
 div.scrollmenu {
     overflow: auto;
     white-space: nowrap;
@@ -42,6 +43,7 @@ textarea.onclick{
 .card-body {
     padding: 10px 1.25rem 5px !important;
 }
+
 a.action{
     display: inline-block;
     position: absolute;
@@ -58,5 +60,4 @@ li.task-row{
     right: 5px;
     font-size: 1rem;
 }
-
 
