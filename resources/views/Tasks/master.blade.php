@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{asset('Tasks/css/lib/bootstrap/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('Tasks/css/main.css')}}">
     <link rel="stylesheet" href="{{asset('Tasks/style.css')}}">
+    @yield('style')
     <script src="{{asset('Tasks/js/lib/jquery/jquery-3.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('Tasks/js/lib/jqueryui/jquery-ui.min.js')}}"></script>
 </head>

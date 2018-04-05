@@ -27,5 +27,11 @@ Route::group(['prefix' => 'dashboard','middleware'=>'auth'],function(){
 
     Route::get('project_detail/{id}','ProjectsController@index');
     Route::post('createboard','ProjectsController@createBoard')->name('createboard');
+    Route::post('/createprojectgroup','DashBoardController@board_group_project')->name('createprojectgroup');
 
+    Route::post('/deletepersonal/{id}','DashBoardController@delete_board_personal')->name('deletepersonal');
+
+    Route::get('/getboardpersonal/{id}','DashBoardController@get_board_personal')->name('getboardpersonal');
+
+    Route::put('/editboardpersonal/{id}','DashBoardController@edit_board_personal');
 });

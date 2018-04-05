@@ -12,7 +12,7 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'name','dealine','member_id','permission_id'
+        'name','dealine','member_id','permission_id','description'
     ];
 
     /**

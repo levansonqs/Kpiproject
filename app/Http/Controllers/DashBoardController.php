@@ -44,6 +44,27 @@ class DashBoardController extends Controller
         $addproject->save();
         return response()->json($addproject,200);
     }
+    public function delete_board_personal($id)
+    {
+        $project = Project::find($id);
+        $project->delete();
+        $member = Member::destroy($project['member_id']);
+
+        return response()->json([$project,$member], 200);
+    }
+
+    public function get_board_personal($id)
+    {
+        $project = Project::findorFail($id);
+        return response()->json($project,200);
+    }
+
+    public function edit_board_personal(Request $request,$id)
+    {
+        $project = Project::findorFail($id);
+        $project->update($request->all());
+        return response()->json($project,200);
+    }
 
     public function boardgroup(Request $request)
     {
@@ -54,7 +75,19 @@ class DashBoardController extends Controller
         $mem->user_id = Auth::user()->id;
         $mem->group_id = $group->id;
         $mem->save();
-        return response()->json($group , 200);
+        return response()->json([$group,$mem] , 200);
+    }
+    public function board_group_project(Request $request)
+    {
+        $project = new Project;
+        $project->name = $request->name;
+        $project->description = $request->description;
+        $project->dealine = $request->dealine;
+        $project->member_id = $request->member_id;
+        $project->permission_id = 2;
+        $project->save();
+        $group = Member::where('user_id',Auth::user()->id)->where('id',$request->member_id)->with(['group','projects'])->get()->toArray();
+        return response()->json([$project,$group],200);
     }
 
     public function logout()
