@@ -147,6 +147,7 @@
         </div>
     </div>
 </div>
+
 @section('script')
     <script>
         $(document).ready(function(){
@@ -214,5 +215,6 @@
                 })
             })
         });
+
     </script>
 @stop>
