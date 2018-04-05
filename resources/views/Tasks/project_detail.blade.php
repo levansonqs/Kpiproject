@@ -62,33 +62,8 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="md-del-task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xóa !</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                <div class="modal-body">
-                    <p>Bạn có thực sự muốn xóa mục này !.</p>
-                    <p>Ấn nút delete để xóa?</p>
-                    <p class="debug-url"></p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a  id="comfirm-del-task" class="btn btn-danger btn-ok" >Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
-        <div class="modal fade " id="md-detail-task" tabindex="-1" role="dialog" aria-labelledby="modalDetailTask" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-dialog" role="document">
+        <div class="modal fade " id="md-detail-task" tabindex="1" role="dialog" aria-labelledby="modalDetailTask" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalDetailTask">Xóa !</h5>
@@ -100,14 +75,32 @@
                         <div class="modal-body">
 
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <a  id="comfirm-del-task" class="btn btn-danger btn-ok" >Delete</a>
-                        </div>
                     </div>
-                </div>
             </div>
         </div>
+    <div class="modal fade" id="md-del-task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa !</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Bạn có thực sự muốn xóa mục này !.</p>
+                        <p>Ấn nút delete để xóa?</p>
+                        <p class="debug-url"></p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a  id="comfirm-del-task" class="btn btn-danger btn-ok" >Delete</a>
+                    </div>
+                </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script>
@@ -246,6 +239,7 @@
             });
             $(document).on('click','a#comfirm-del-task',function(){
                 var task_id = $(this).attr('data-id');
+                alert(task_id);
                 $.ajax({
                     type:'POST',
                     url: '{{ route('deletetask')}}',
@@ -260,10 +254,20 @@
             });
 
             //event view detail task
-            $(document).on('click','textarea.card-task',function(){
+            $(document).on('click','textarea[readonly]',function(){
                $('#md-detail-task').modal('show');
+               var task_id = $(this).attr('id');
+               console.log(task_id);
+               $.ajax({
+                   type:'POST',
+                   url: '{{route('detailtask')}}',
+                   data: {task_id:task_id},
+                   datatype:'json',
+                   success:function(data){
+                       console.log(data);
+                   }
+               });
             });
-
 
         });
     </script>
