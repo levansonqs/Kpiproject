@@ -40,7 +40,7 @@
                     <h1>Đăng nhập vào Kproject</h1>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <h2><a type="button" class="btn btn-primary btn-lg btn-block" name="button">Đăng nhập</a></h2><br><br>
+                            <h2><a href="{{route('login')}}" type="button" class="btn btn-primary btn-lg btn-block" name="button">Đăng nhập</a></h2><br><br>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <h4>Bỏ đi những email dài dòng, bảng tính đã cũ, ghi chú sắp hết thời gian hiện, và phần mềm ít sử dụng để quản lý các dự án của bạn. Kproject giúp bạn quan sát nhanh mọi thứ về dự án của bạn</h4>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <h3><a type="button" class="btn btn-info btn-lg btn-block" name="button">Đăng kí</a></h3><br><br>
+                            <h3><a href="{{route('register')}}" type="button" class="btn btn-info btn-lg btn-block" name="button">Đăng kí</a></h3><br><br>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
     @stop
 @section('content')
 <h3>Bảng cá nhân</h3>
-<div class="row"  >
+<div class="row">
     @foreach($projects as $project)
         @foreach($project as $pro)
     <div class="col-sm-4 col-md-3 col-xl-2" id="pro{{$pro['id']}}">
@@ -18,12 +18,12 @@
                 <button type="button" class="btn btn-danger btn-xs delete-dashboard icon-delete float-right" value="{{$pro['id']}}"><i class="fa fa-times"></i></button>
                 <button type="button" class="btn btn-warning btn-xs icon-delete float-left edit-dashboard" value="{{$pro['id']}}"> <i class="fa fa-edit"></i> </button>
                 <div class="number" style="font-size:200%">
-                    <a href="" style="color:#fff">
+                    <a href="{{url('/dashboard/project-detail/'.$pro['id'])}}" style="color:#fff">
                     {{$pro['name']}}
                     </a>
                 </div>
                 <div class="caption">
-                    <a href="" style="color:#fff">
+                    <a href="{{url('/dashboard/project-detail/'.$pro['id'])}}" style="color:#fff">
                     {{$pro['description']}}
                     </a>
                 </div>
@@ -55,49 +55,63 @@
 <div id="rowgroup">
     @foreach($groups as $group)
         @if(!empty($group['group_id']))
-        <h4 style="color:darkgoldenrod"> {{$group['group']['name'] }} </h4>
-        <div class="row" >
-            <?php
-            $projects_group = [];
-            $projects = $group['projects'];
-            if(!empty($projects)){
-                foreach($projects as $project ){
-                    if($project['permission_id'] != 1){
-                        $projects_group[] = $project;
-                    }
-                }
-            }
+            <div id="group{{$group['group']['id']}}">
+                <div id="group-title{{$group['group']['id']}}">
+                    <h4 style="color:darksalmon"> <i style="color:darkgrey" class="fa fa-users"></i> {{$group['group']['name'] }} <button type="button" class="btn btn-xs btn-success edit-group" style="font-size:50%" value="{{$group['group']['id']}}">Sửa</button> <button class="btn btn-xs btn-danger delete-group" style="font-size:50%" value="{{$group['group']['id']}}">Xóa</button> </h4>
+                </div>
 
-            ?>
-            @foreach($projects_group as $project)
-                <div class="col-sm-4 col-md-3 col-xl-2">
-                    <div class="statistic-box green">
-                        <div>
-                            <div class="number" style="font-size:200%">
-                                {{ $project['name'] }}
-                            </div>
-                            <div class="caption">
-                                {{  $project['description'] }}
+
+                <div class="row" >
+                    <?php
+                    $projects_group = [];
+                    $projects = $group['projects'];
+                    if(!empty($projects)){
+                        foreach($projects as $project ){
+                            if($project['permission_id'] != 1){
+                                $projects_group[] = $project;
+                            }
+                        }
+                    }
+
+                    ?>
+                    @foreach($projects_group as $project)
+                        <div class="col-sm-4 col-md-3 col-xl-2" id="pro-group{{$project['id']}}">
+                            <div class="statistic-box green">
+
+                                <div>
+                                    <button type="button" class="btn btn-danger btn-xs delete-project-group icon-delete float-right" value="{{$project['id']}}"><i class="fa fa-times"></i></button>
+                                    <button type="button" class="btn btn-warning btn-xs icon-delete float-left edit-dashboard" value="{{$project['id']}}"> <i class="fa fa-edit"></i> </button>
+                                    <div class="number" style="font-size:200%">
+                                        <a href="{{url('/dashboard/project-detail/'.$project['id'])}}" style="color:#fff">
+                                            {{ $project['name'] }}
+                                        </a>
+                                    </div>
+                                    <div class="caption">
+                                        <a href="{{url('/dashboard/project-detail/'.$project['id'])}}" style="color:#fff">
+                                            {{  $project['description'] }}
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    @endforeach
+                    <div id="gr{{$group['id']}}" class="col-sm-4 col-md-3 col-xl-2">
+                        <a class="addgroup"  data="{{$group['id']}}">
+                            <div class="statistic-box red">
+                                <div>
+                                    <div class="number">
+                                        Bảng
+                                    </div>
+                                    <div class="caption">
+                                        Thêm bảng
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
-            @endforeach
-            <div id="gr{{$group['id']}}" class="col-sm-4 col-md-3 col-xl-2">
-                <a class="addgroup"  data="{{$group['id']}}">
-                    <div class="statistic-box red">
-                        <div>
-                            <div class="number">
-                                Bảng
-                            </div>
-                            <div class="caption">
-                                Thêm bảng
-                            </div>
-                        </div>
-                    </div>
-                </a>
             </div>
-        </div>
+
         @endif
     @endforeach
 </div>
@@ -147,7 +161,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tạo Group</h5>
+                <h5 class="modal-title" id="edit_title_group"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -162,7 +176,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="savegroup" >Save</button>
+                <button type="submit" class="btn btn-primary" id="savegroup" data-id="">Save</button>
             </div>
         </div>
     </div>
@@ -189,6 +203,8 @@
 @section('script')
     <script>
         $(document).ready(function(){
+
+
             $("body").on('click','#addboard',function(){
                 $('#exampleModalLabel').html("Tạo bảng");
                 $('#frdashboar').trigger("reset");
@@ -242,7 +258,14 @@
                 }
             });
 
+
+
+            // Tao group
+
             $("#gregroup").on('click',function(){
+                $('#edit_title_group').html("Tạo Group");
+                $("#formcreategroup").trigger("reset");
+                $("#savegroup").val('gre_group');
                 $('#greategroup').modal('show');
             })
             $("#savegroup").on('click',function(e){
@@ -253,35 +276,47 @@
                 });
                 e.preventDefault();
                 var name = $("#group").val();
-                $.ajax({
-                    type: 'POST',
-                    url: '{{route('postgroup')}}',
-                    data: {name:name},
-                    success: function (data) {
-                        console.log(data);
-                        var add = '<h4 style="color:darkgoldenrod"> '+data[0].name+' </h4>\n' +
-                            '<div class="row">\n' +
-                            '<div  id="gr'+data[1].id+'" class="col-sm-4 col-md-3 col-xl-2">\n' +
-                            '                <a class="addgroup" data="'+data[1].id+'">\n' +
-                            '                    <div class="statistic-box red">\n' +
-                            '                        <div>\n' +
-                            '                            <div class="number">\n' +
-                            '                                Bảng\n' +
-                            '                            </div>\n' +
-                            '                            <div class="caption">\n' +
-                            '                                Thêm bảng\n' +
-                            '                            </div>\n' +
-                            '                        </div>\n' +
-                            '                    </div>\n' +
-                            '                </a>\n' +
-                            '            </div>';
-                        '</div>';
-                        $("#rowgroup").append(add);
-                        $('#greategroup').modal('hide');
-                        $('#formcreategroup').trigger("reset");
-                    }
-                })
+                var state = $(this).val();
+                if(state == 'gre_group'){
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{route('postgroup')}}',
+                        data: {name:name},
+                        success: function (data) {
+                            var add_1 = '<div id="group'+data[0].id+'">\n' +
+                                '                <div id="group-title'+data[0].id+'">\n' +
+                                '                    <h4 style="color:darksalmon"> <i style="color:darkgrey" class="fa fa-users"></i> '+data[0].name+' <button type="button" class="btn btn-xs btn-success edit-group" style="font-size:50%" value="'+data[0].id+'">Sửa</button> <button class="btn btn-xs btn-danger delete-group" style="font-size:50%" value="'+data[0].id+'">Xóa</button> </h4>\n' +
+                                '                </div>\n' +
+                                '                <div class="row" >\n' +
+                                '                    <div id="gr'+data[1].id+'" class="col-sm-4 col-md-3 col-xl-2">\n'+
+                                '                        <a class="addgroup"  data="'+data[1].id+'">\n'+
+                                '                            <div class="statistic-box red">\n'+
+                                '                                <div>\n'+
+                                '                                    <div class="number">\n'+
+                                '                                        Bảng\n'+
+                                '                                    </div>\n'+
+                                '                                    <div class="caption">\n'+
+                                '                                        Thêm bảng\n'+
+                                '                                    </div>\n'+
+                                '                                </div>\n'+
+                                '                            </div>\n'+
+                                '                        </a>\n'+
+                                '                    </div>\n'+
+                                '                </div>\n'+
+                                '            </div>';
+                            console.log(data);
+                            $("#rowgroup").append(add_1);
+                            $('#greategroup').modal('hide');
+                            $('#formcreategroup').trigger("reset");
+                        }
+                    })
+                }
+
             })
+
+
+
+
             $("body").on('click','.addgroup',function () {
                 $('#exampleModalLabel').html("Tạo bảng");
                 $('#frdashboar').trigger("reset");
@@ -311,29 +346,39 @@
                         dataType:'json',
                         success:function(data){
                             console.log(data[0].name);
-                            var add = '<div class="col-sm-4 col-md-3 col-xl-2">\n' +
+                            var add_1 = '<div class="col-sm-4 col-md-3 col-xl-2" id="pro-group'+data[0].id+'">\n' +
                                 '                    <div class="statistic-box green">\n' +
+                                '\n' +
                                 '                        <div>\n' +
+                                '                            <button type="button" class="btn btn-danger btn-xs delete-project-group icon-delete float-right" value="'+data[0].id+'"><i class="fa fa-times"></i></button>\n' +
+                                '                            <button type="button" class="btn btn-warning btn-xs icon-delete float-left edit-dashboard" value="'+data[0].id+'"> <i class="fa fa-edit"></i> </button>\n' +
                                 '                            <div class="number" style="font-size:200%">\n' +
-                                '                                '+data[0].name+' \n' +
+                                '                                <a href="{{url('/dashboard/project-detail')}}/'+data[0].id+'" style="color:#fff">\n' +
+                                '                                    '+data[0].name+'\n' +
+                                '                                </a>\n' +
                                 '                            </div>\n' +
                                 '                            <div class="caption">\n' +
-                                '                                '+data[0].description+' \n' +
+                                '                                <a href="{{url('/dashboard/project-detail')}}/'+data[0].id+'" style="color:#fff">\n' +
+                                '                                    '+data[0].description+'\n' +
+                                '                                </a>\n' +
                                 '                            </div>\n' +
                                 '                        </div>\n' +
                                 '                    </div>\n' +
                                 '                </div>';
-                            $("#gr"+data[1][0].id).before(add);
+                            $("#gr"+data[1][0].id).before(add_1);
                             $("#frdashboar").trigger("reset");
                             $('#exampleModal').modal('hide');
-                            console.log(data);
                         }
                     })
                 }
             })
+
+
+
             $('body').on('click','.delete-dashboard',function () {
                 $('#deletemodal').modal('show');
                 var button_val = $(this).val();
+                $('#delete_project').val('del_project_per');
                 $('#delete_project').attr('data-id',button_val);
             })
             $('#delete_project').on('click',function(e){
@@ -344,15 +389,25 @@
                 });
                 e.preventDefault();
                 var id = $(this).attr('data-id');
-                $.ajax({
-                    type : 'POST',
-                    url : '{{url('/dashboard/deletepersonal')}}/'  +id,
-                    success:function(data){
-                        $('#pro'+data[0].id).remove();
-                        $('#deletemodal').modal('hide');
-                    },
-                })
+                var state = $('#delete_project').val();
+                if(state == 'del_project_per'){
+                    $.ajax({
+                        type : 'DELETE',
+                        url : '{{url('/dashboard/deletepersonal')}}/'  +id,
+                        success:function(data){
+                            $('#pro'+data[0].id).remove();
+                            $('#deletemodal').modal('hide');
+                        },
+                    })
+                }
             })
+
+
+
+
+
+
+
             $('body').on('click','.edit-dashboard',function () {
                 var id = $(this).val();
                 $('#exampleModalLabel').html("Sửa bảng");
@@ -377,16 +432,156 @@
                 var des = $("#des").val();
                 var dealine = $("#dealine").val();
                 var id = $(this).attr('data-id');
-                $.ajax({
-                    type:'PUT',
-                    url: '{{url('/dashboard/editboardpersonal')}}/'+id,
-                    data:{name:name,description:des,dealine:dealine},
-                    dataType:'json',
-                    success:function(data){
-                        $('#exampleModal').modal('hide');
-                        console.log(data);
+                if(state == 'edit_board'){
+                    $.ajax({
+                        type:'PUT',
+                        url: '{{url('/dashboard/editboardpersonal')}}/'+id,
+                        data:{name:name,description:des,dealine:dealine},
+                        dataType:'json',
+                        success:function(data){
+
+                            var edit = '<div class="col-sm-4 col-md-3 col-xl-2" id="pro'+data.id+'">\n' +
+                                '        <div class="statistic-box purple">\n' +
+                                '            <div>\n' +
+                                '                <button type="button" class="btn btn-danger btn-xs delete-dashboard icon-delete float-right" value="'+data.id+'"><i class="fa fa-times"></i></button>\n' +
+                                '                <button type="button" class="btn btn-warning btn-xs icon-delete float-left edit-dashboard" value="'+data.id+'"> <i class="fa fa-edit"></i> </button>\n' +
+                                '                <div class="number" style="font-size:200%">\n' +
+                                '                    <a href="" style="color:#fff">\n' +
+                                '                    '+data.name+'\n' +
+                                '                    </a>\n' +
+                                '                </div>\n' +
+                                '                <div class="caption">\n' +
+                                '                    <a href="" style="color:#fff">\n' +
+                                '                    '+data.description+'\n' +
+                                '                    </a>\n' +
+                                '                </div>\n' +
+                                '\n' +
+                                '            </div>\n' +
+                                '        </div>\n' +
+                                '    </div>';
+
+                            var edit_project_group = '<div class="col-sm-4 col-md-3 col-xl-2" id="pro-group'+data.id+'">\n' +
+                                '                    <div class="statistic-box green">\n' +
+                                '\n' +
+                                '                        <div>\n' +
+                                '                            <button type="button" class="btn btn-danger btn-xs delete-project-group icon-delete float-right" value="'+data.id+'"><i class="fa fa-times"></i></button>\n' +
+                                '                            <button type="button" class="btn btn-warning btn-xs icon-delete float-left edit-dashboard" value="'+data.id+'"> <i class="fa fa-edit"></i> </button>\n' +
+                                '                            <div class="number" style="font-size:200%">\n' +
+                                '                                <a href="" style="color:#fff">\n' +
+                                '                                    '+data.name+'\n' +
+                                '                                </a>\n' +
+                                '                            </div>\n' +
+                                '                            <div class="caption">\n' +
+                                '                                <a href="" style="color:#fff">\n' +
+                                '                                    '+data.description+'\n' +
+                                '                                </a>\n' +
+                                '                            </div>\n' +
+                                '                        </div>\n' +
+                                '                    </div>\n' +
+                                '                </div>';
+                            $("#pro-group"+data.id).replaceWith(edit_project_group);
+                            $("#pro"+data.id).replaceWith(edit);
+                            $('#exampleModal').modal('hide');
+                        }
+                    })
+                }
+
+            })
+
+
+            $('body').on('click','.delete-project-group',function () {
+                var button_val = $(this).val();
+                $('#delete_project').val('del_project_gr');
+                $('#delete_project').attr('data-id',button_val);
+                $('#deletemodal').modal('show');
+            })
+            $('#delete_project').on('click',function (e) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     }
+                });
+                e.preventDefault();
+                var id = $(this).attr('data-id');
+                var state = $(this).val();
+               if(state == 'del_project_gr'){
+                   $.ajax({
+                       type: 'DELETE',
+                       url : '{{url('dashboard/delprojectgroup')}}/'+id,
+                       success:function (data) {
+                           $('#pro-group'+data.id).remove();
+                           $('#deletemodal').modal('hide');
+                       }
+                   })
+               }
+            })
+
+
+            $('body').on('click','.edit-group',function () {
+                var id = $(this).val();
+                $('#edit_title_group').html("Sửa Nhóm");
+                $('#savegroup').val('edit_group');
+                $('#savegroup').attr('data-id',id);
+                $('#greategroup').modal('show');
+                $.get('{{url('/dashboard/getgroup')}}/'+id,function (data) {
+                    var namegroup = $('#group').val(data.name);
                 })
+            })
+            $("#savegroup").on('click',function (e) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                e.preventDefault();
+                var id = $(this).attr('data-id');
+                var name = $("#group").val();
+                var state = $(this).val();
+                if(state == 'edit_group'){
+                    $.ajax({
+                        url: '{{url('/dashboard/editgroup')}}/'+id,
+                        type:'POST',
+                        data:{name:name},
+                        dataType:'json',
+                        success:function (data) {
+                            var title = '<div id="group-title'+data.id+'">\n' +
+                                '                 <h4 style="color:darksalmon"> <i style="color:darkgrey" class="fa fa-users"></i> '+data.name+' <button type="button" class="btn btn-xs btn-success edit-group" style="font-size:50%" value="'+data.id+'">Sửa</button> <button class="btn btn-xs btn-danger delete-group" style="font-size:50%" value="'+data.id+'">Xóa</button> </h4>\n' +
+                                '            </div>';
+                            $("#group-title"+data.id).replaceWith(title);
+                            $('#greategroup').modal('hide');
+                            console.log(data);
+                        }
+                    })
+                }
+            })
+
+
+            $('body').on('click','.delete-group',function () {
+                var button_val = $(this).val();
+                $('#delete_project').val('del_group');
+                $('#delete_project').attr('data-id',button_val);
+                $('#deletemodal').modal('show');
+            })
+            $('#delete_project').on('click',function (e) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                e.preventDefault();
+                var id = $(this).attr('data-id');
+                var state = $('#delete_project').val();
+                if(state == 'del_group'){
+                    $.ajax({
+                        type:'DELETE',
+                        url : '{{url('/dashboard/delgroup')}}/'+id,
+                        success:function (data) {
+                            $('#group'+id).remove();
+                            $('#deletemodal').modal('hide');
+                            console.log(data);
+                        }
+                    })
+                }
             })
         });
 

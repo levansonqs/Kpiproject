@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'dashboard','middleware'=>'auth'],function(){
-    Route::get('/','DashBoardController@dashboard');
+    Route::get('/','DashBoardController@dashboard')->name('dashboard');
     Route::get('/logout','DashBoardController@logout')->name('logout');
     Route::post('/boardpersonal','DashBoardController@boardpersonal')->name('postboard');
     Route::post('/creategroup','DashBoardController@boardgroup')->name('postgroup');
@@ -37,9 +37,19 @@ Route::group(['prefix' => 'dashboard','middleware'=>'auth'],function(){
     Route::post('deleteTask','TasksController@deleteTask')->name('deletetask');
 
 
-    Route::post('/deletepersonal/{id}','DashBoardController@delete_board_personal')->name('deletepersonal');
+    Route::delete('/deletepersonal/{id}','DashBoardController@delete_board_personal')->name('deletepersonal');
 
     Route::get('/getboardpersonal/{id}','DashBoardController@get_board_personal')->name('getboardpersonal');
 
     Route::put('/editboardpersonal/{id}','DashBoardController@edit_board_personal');
+
+
+
+    Route::delete('/delprojectgroup/{id}','DashBoardController@del_project_group');
+
+    Route::get('/getgroup/{id}','DashBoardController@get_group_edit');
+
+    Route::post('/editgroup/{id}','DashBoardController@edit_group');
+
+    Route::delete('/delgroup/{id}','DashBoardController@delete_group');
 });

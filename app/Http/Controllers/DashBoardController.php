@@ -77,6 +77,26 @@ class DashBoardController extends Controller
         $mem->save();
         return response()->json([$group,$mem] , 200);
     }
+
+    public function get_group_edit($id)
+    {
+        $group = Group::findorFail($id);
+        return response()->json($group,200);
+    }
+
+    public function edit_group(Request $request,$id)
+    {
+        $group = Group::findorFail($id);
+        $group->update($request->all());
+        return response()->json($group,200);
+    }
+
+    public function delete_group($id)
+    {
+        $group = Group::destroy($id);
+        return response()->json($group,200);
+    }
+
     public function board_group_project(Request $request)
     {
         $project = new Project;
@@ -88,6 +108,13 @@ class DashBoardController extends Controller
         $project->save();
         $group = Member::where('user_id',Auth::user()->id)->where('id',$request->member_id)->with(['group','projects'])->get()->toArray();
         return response()->json([$project,$group],200);
+    }
+
+    public function del_project_group($id)
+    {
+        $project = Project::findorFail($id);
+        $project->delete();
+        return response()->json($project,200);
     }
 
     public function logout()
