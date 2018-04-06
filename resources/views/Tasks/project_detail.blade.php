@@ -431,17 +431,19 @@
                     $(this).blur();
                     $(this).val("");
                     var task_id = $('textarea#task-title').attr('data-id');
-                    $.ajax({
-                        type:'POST',
-                        url: '{{ route('comment') }}',
-                        data:{comment :comment,task_id:task_id},
-                        datatype:'json',
-                        success: function(data) {
-                            console.log(data);
-                            $('#comments').append("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+data[0].user.name+"</span><br><p>"+data[0].content+"</p></span></div></li>");
-                        }
-                    });
-
+                    // console.log(comment);
+                    if(comment){
+                        $.ajax({
+                            type:'POST',
+                            url: '{{ route('comment') }}',
+                            data:{comment :comment,task_id:task_id},
+                            datatype:'json',
+                            success: function(data) {
+                                console.log(data);
+                                $('#comments').append("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+data[0].user.name+"</span><br><p>"+data[0].content+"</p></span></div></li>");
+                            }
+                        });
+                    }
                 }
             });
 

@@ -10,6 +10,7 @@ class CommentsController extends Controller
 {
     public function comment(Request $request){
         if($request->ajax()){
+            if(!empty($request->comment)){
             $user_id = Auth::user()->id;
             $comment = new Comment();
             $comment->content = $request->comment;
@@ -18,6 +19,7 @@ class CommentsController extends Controller
             $comment->save();
             $data = Comment::where('id',$comment->id)->with('user')->get();
             return response()->json($data);
+            }
         }
     }
 }
