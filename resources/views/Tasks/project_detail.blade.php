@@ -26,7 +26,7 @@
 
                                         @endforeach
                                     </ul>
-                                    <a class="action"  data-id="{{$boards->id}}"><i  class=" far fa-edit fa-sm"></i></a>
+                                        <a class="action" data-id="{{$boards->id}}"><i  class=" far fa-edit fa-sm"></i></a>
                                     <a class="add-task">Thêm thẻ</a>
                                 </div>
                             </div>
@@ -77,8 +77,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="content-task">
+                <div class="modal-body">
+                    <div class=""><h5>Danh sách việc cần làm !</h5></div>
+                    <div  id="content-task">
 
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,13 +287,14 @@
                    data: {task_id:task_id},
                    datatype:'json',
                    success:function(data){
+
                        console.log(data);
                        $('#task-title').attr('readonly',false);
                        $('#task-title').attr('data-id',data[0][0].id)
                        $('#task-title').html(data[0][0].title);
                        $('#content-task').html(" <ul class='list-group list-group-flush' id='list-todos'>" +
                            "                    </ul>" +
-                           "                    <a class='add-todo'>Thêm công việc</a>" +
+                           "                    <a class='add-todo'>Thêm công việc...</a>" +
                            "                    <div  class='mt-3'>" +
                            "                        <h5 class='mt-3'>Comments</h5>" +
                            "                        <div class='wp-comments'>" +
@@ -306,7 +311,13 @@
                        });
                        $.each(data[0][0].comments, function(i, todo) {
                            console.log(todo.user.name);
-                          $('#comments').append("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+todo.user.name+"</span><br><p>"+todo.content+"</p></span></div></li>");
+                          $('#comments').append("<li>" +
+                                  "<div class='user-cmt row'>" +
+                                      "<div class='col-md-1 '><img class='rounded-circle' src='{{asset('')}}/Images/favicon.png' width='40px' height='40px'></div>" +
+                                      "<div class='col-md-11 px-4'><i> "+todo.user.name+"</i><small class='px-2'>"+todo.created_at+"</small>" +
+                                      "<p>"+todo.content+"</p></div>" +
+                                  "</div>" +
+                              "</li>");
                        });
                    }
                });
@@ -440,7 +451,13 @@
                             datatype:'json',
                             success: function(data) {
                                 console.log(data);
-                                $('#comments').append("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+data[0].user.name+"</span><br><p>"+data[0].content+"</p></span></div></li>");
+                                $('#comments').append("<li>" +
+                                "<div class='user-cmt row'>" +
+                                "<div class='col-md-1 '><img class='rounded-circle' src='{{asset('')}}/Images/favicon.png' width='40px' height='40px'></div>" +
+                                "<div class='col-md-11 px-4'><i> "+data[0].user.name+"</i><small class='px-2'>"+data[0].created_at+"</small>" +
+                                "<p>"+data[0].content+"</p></div>" +
+                                "</div>" +
+                                "</li>");
                             }
                         });
                     }
