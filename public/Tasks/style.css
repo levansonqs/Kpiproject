@@ -47,8 +47,8 @@ textarea.onclick{
 a.action{
     display: inline-block;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 5px;
+    right: 5px;
     font-size: 1.5rem;
 }
 li.task-row{
@@ -60,4 +60,6 @@ li.task-row{
     right: 5px;
     font-size: 1rem;
 }
-
+.list-group textarea{
+    padding-right: 10px !important;
+}

@@ -19,6 +19,7 @@ class ProjectsController extends Controller
             'permission',
         ];
         $project = Project::with($relate)->findOrFail($id);
+
         return view('Tasks.project_detail',compact('project'));
     }
     /**

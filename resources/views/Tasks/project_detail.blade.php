@@ -1,4 +1,9 @@
 @extends('Tasks.master')
+@section('style')
+    <link rel="stylesheet" type="text/css" href="//www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+    <style type="text/css">#HCB_comment_box #HCB_comment_form_box{padding-bottom:1em}#HCB_comment_box .hcb-link{cursor:pointer}#HCB_comment_box .hcb-icon{border:0px transparent none}#HCB_comment_box textarea {display:block;width:100%;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;width: 100%}#HCB_comment_box blockquote{margin:10px;overflow:hidden}#HCB_comment_box .hcb-err{color:red}#HCB_comment_box .hcb-comment-tb{margin:0}#HCB_comment_box .comment{position:relative}#HCB_comment_box .comment .likes{position:absolute;top:0;right:0;opacity:0.8}#HCB_comment_box .comment .hcb-comment-tb a{visibility:hidden}#HCB_comment_box .comment:hover .hcb-comment-tb a{visibility:visible}#HCB_comment_box .gravatar{padding-right:2px}#HCB_comment_box input{margin-left:0}#HCB_comment_box input[type="file"]{display:none}#HCB_comment_box input.inputfile{width:.1px;height:.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1}#HCB_comment_box input.inputfile+label {display: inline-block; position: relative; top: 5px; cursor: pointer}input.inputfile+label img {width: 22px; height: 22px}</style>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+@endsection
 @section('content')
     <div class="container-fluid container-scroll">
         <h3>{{$project->name}}</h3>
@@ -23,10 +28,11 @@
 
                                         @endforeach
                                     </ul>
+                                    <a class="action"  data-id="{{$boards->id}}"><i  class=" far fa-edit fa-sm"></i></a>
                                     <a class="add-task">Thêm thẻ</a>
                                 </div>
                             </div>
-                            <a class="action"  data-id="{{$boards->id}}"><i  class=" far fa-edit fa-sm"></i></a>
+
 
 
                         </div>
@@ -62,27 +68,41 @@
             </div>
         </div>
     </div>
-        <div class="modal fade " id="md-detail-task" tabindex="1" role="dialog" aria-labelledby="modalDetailTask" aria-hidden="true">
+        <div class="modal fade " id="md-detail-task" tabindex="1" role="dialog" aria-labelledby="title-task" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalDetailTask">Xóa !</h5>
+                            <h5 class="modal-title" id="exampleModalLabel" style="width: 100%">
+                                <textarea readonly class="card-title form-control edit-area" id="task-title"  ></textarea>
+                            </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-
                         <div class="modal-body">
+                            <ul class="list-group list-group-flush" id="list-todos">
+
+                            </ul>
+                            <a class="add-task">Thêm công việc</a>
+                            <div id="HCB_comment_box" class="mt-3">
+                                <ul id="comments">
+
+                                </ul>
+                                <h5 class="mt-3">Comments</h5>
+                                <div class="">
+                                    <textarea  class="comment-box form-control" rows="2" placeholder="Enter your comment here">
+                                    </textarea>
+                                </div>
 
                         </div>
                     </div>
             </div>
         </div>
-    <div class="modal fade" id="md-del-task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="md-del-task" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xóa !</h5>
+                        <h5 class="modal-title" id="">Xóa !</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -142,6 +162,7 @@
                             "                                            <textarea readonly class='card-title form-control edit-area' id="+data.id+">"+data.name+"</textarea>" +
                             "                                        </li>" +
                             "                                    </ul>" +
+                            "                                    <a class='action'  data-id='"+data.id+"'><i  class=' far fa-edit fa-sm'></i></a>" +
                             "                                    <a class='add-task'>Thêm thẻ</a>" +
                             "                                </div>" +
                             "                            </div>" +
@@ -160,7 +181,7 @@
                 $(this).removeAttr('readonly');
                 $(this).addClass('onclick');//style on focus textarea
                 $(this).parent().append("<div class='action-row my-2'><a class='btn btn-sm btn-primary btn-update-board p-x-5 mx-1' id='"+board_id+"'>Lưu</a>" +
-                    "<a id='cancel-board' class='btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a></div>");
+                    "<a  class='cancel btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a></div>");
             });
             //even update board
             $(document).on('click','.btn-update-board',function() {
@@ -204,7 +225,7 @@
                     "<textarea  id='area-temp' class='card-task form-control new-task onclick'></textarea>" +
                     "<div class='action-row my-2'>" +
                     "<a id='save-task' class='btn btn-sm btn-primary  p-x-5 mx-1'>Lưu</a>" +
-                    "<a id='cancel-task' class='btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a>"+
+                    "<a  class='cancel btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a>"+
                     "</div>"+
                     "</li>"
                 );
@@ -239,7 +260,6 @@
             });
             $(document).on('click','a#comfirm-del-task',function(){
                 var task_id = $(this).attr('data-id');
-                alert(task_id);
                 $.ajax({
                     type:'POST',
                     url: '{{ route('deletetask')}}',
@@ -252,9 +272,22 @@
                     }
                 });
             });
-
+            $(document).on('click','a#cancel-board',function(){
+                $('.edit-area').attr('readonly');
+                $('.edit-area').removeClass('onclick');
+                $('.action-row').remove();
+                $('a.add-task').show();
+                $('#area-temp').remove();
+            });
+            $(document).on('click','a.cancel',function(){
+                $('.edit-area').attr('readonly');
+                $('.edit-area').removeClass('onclick');
+                $('.action-row').remove();
+                $('a.add-task').show();
+                $('#area-temp').remove();
+            });
             //event view detail task
-            $(document).on('click','textarea[readonly]',function(){
+            $(document).on('click','textarea[readonly].card-task',function(){
                $('#md-detail-task').modal('show');
                var task_id = $(this).attr('id');
                console.log(task_id);
@@ -265,10 +298,21 @@
                    datatype:'json',
                    success:function(data){
                        console.log(data);
+
+                       $('#task-title').html(data[0].title);
+                       $.each(data[1], function(i, todo) {
+                            $('#list-todos').html("<li class='task-row' data-id='"+data[1].id+"'>" +
+                                "   <textarea readonly class='card-task form-control' data-id='"+data[1].id+"'>"+todo.content+"</textarea>" +
+                                "   <a class='delete-task'  data-id='"+data[1].id+"'><i  class='far fa-trash-alt fa-sm'></i></a>" +
+                                "   </li>");
+                       });
+                       $.each(data[1], function(i, todo) {
+                          $('#comments').html("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+todo.name+"</span><br><p>"+todo.content+"</p></span></div></li>");
+                       });
+
                    }
                });
             });
-
         });
     </script>
 @endsection
