@@ -34,7 +34,14 @@ Route::group(['prefix' => 'dashboard','middleware'=>'auth'],function(){
 
     Route::post('detailTask','TasksController@detailTask')->name('detailtask');
     Route::post('createTask','TasksController@createTask')->name('createtask');
+    Route::post('updateTask','TasksController@updateTask')->name('updatetask');
     Route::post('deleteTask','TasksController@deleteTask')->name('deletetask');
+
+    Route::post('createTodo','TodosController@createTodo')->name('createtodo');
+    Route::post('updateTodo','TodosController@updateTodo')->name('updatetodo');
+    Route::post('deleteTodo','TodosController@deleteTodo')->name('deletetodo');
+
+    Route::post('comment','CommentsController@comment')->name('comment');
 
 
     Route::post('/deletepersonal/{id}','DashBoardController@delete_board_personal')->name('deletepersonal');

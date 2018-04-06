@@ -1,7 +1,5 @@
 @extends('Tasks.master')
 @section('style')
-    <link rel="stylesheet" type="text/css" href="//www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
-    <style type="text/css">#HCB_comment_box #HCB_comment_form_box{padding-bottom:1em}#HCB_comment_box .hcb-link{cursor:pointer}#HCB_comment_box .hcb-icon{border:0px transparent none}#HCB_comment_box textarea {display:block;width:100%;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;width: 100%}#HCB_comment_box blockquote{margin:10px;overflow:hidden}#HCB_comment_box .hcb-err{color:red}#HCB_comment_box .hcb-comment-tb{margin:0}#HCB_comment_box .comment{position:relative}#HCB_comment_box .comment .likes{position:absolute;top:0;right:0;opacity:0.8}#HCB_comment_box .comment .hcb-comment-tb a{visibility:hidden}#HCB_comment_box .comment:hover .hcb-comment-tb a{visibility:visible}#HCB_comment_box .gravatar{padding-right:2px}#HCB_comment_box input{margin-left:0}#HCB_comment_box input[type="file"]{display:none}#HCB_comment_box input.inputfile{width:.1px;height:.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1}#HCB_comment_box input.inputfile+label {display: inline-block; position: relative; top: 5px; cursor: pointer}input.inputfile+label img {width: 22px; height: 22px}</style>
     <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 @endsection
 @section('content')
@@ -68,36 +66,23 @@
             </div>
         </div>
     </div>
-        <div class="modal fade " id="md-detail-task" tabindex="1" role="dialog" aria-labelledby="title-task" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel" style="width: 100%">
-                                <textarea readonly class="card-title form-control edit-area" id="task-title"  ></textarea>
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <ul class="list-group list-group-flush" id="list-todos">
+    <div class="modal fade " id="md-detail-task" tabindex="1" role="dialog" aria-labelledby="title-task" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="width: 100%">
+                        <textarea readonly class="card-title form-control edit-area" id="task-title"  data-id=""></textarea>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="content-task">
 
-                            </ul>
-                            <a class="add-task">Thêm công việc</a>
-                            <div id="HCB_comment_box" class="mt-3">
-                                <ul id="comments">
-
-                                </ul>
-                                <h5 class="mt-3">Comments</h5>
-                                <div class="">
-                                    <textarea  class="comment-box form-control" rows="2" placeholder="Enter your comment here">
-                                    </textarea>
-                                </div>
-
-                        </div>
-                    </div>
+                </div>
             </div>
         </div>
+    </div>
     <div class="modal fade" id="md-del-task" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -212,7 +197,7 @@
             });
 
 
-            //even  create task
+            //even view create task
             $(document).on('click','.add-task',function(){
                 $('.edit-area').attr('readonly');
                 $('.edit-area').removeClass('onclick');
@@ -230,6 +215,7 @@
                     "</li>"
                 );
             });
+            //even save task
             $(document).on('click','#save-task',function(){
                 var name = $('#area-temp').val();
                 var board_id = $(this).parents('ul.list-group').find('.card-title').attr('id');
@@ -249,9 +235,8 @@
                     }
                 });
             });
-            $(document).on('click','a.action',function(){
-                // alert($(this).attr('data-id'));
-            });
+
+
 
             $(document).on('click','a.delete-task',function(){
                 var task_id = $(this).attr('data-id');
@@ -280,10 +265,11 @@
                 $('#area-temp').remove();
             });
             $(document).on('click','a.cancel',function(){
-                $('.edit-area').attr('readonly');
-                $('.edit-area').removeClass('onclick');
+                $('textarea').attr('readonly');
+                $('textarea').removeClass('onclick');
                 $('.action-row').remove();
                 $('a.add-task').show();
+                $('a.add-todo').show();
                 $('#area-temp').remove();
             });
             //event view detail task
@@ -298,21 +284,167 @@
                    datatype:'json',
                    success:function(data){
                        console.log(data);
-
-                       $('#task-title').html(data[0].title);
+                       $('#task-title').attr('readonly',false);
+                       $('#task-title').attr('data-id',data[0][0].id)
+                       $('#task-title').html(data[0][0].title);
+                       $('#content-task').html(" <ul class='list-group list-group-flush' id='list-todos'>" +
+                           "                    </ul>" +
+                           "                    <a class='add-todo'>Thêm công việc</a>" +
+                           "                    <div  class='mt-3'>" +
+                           "                        <h5 class='mt-3'>Comments</h5>" +
+                           "                        <div class='wp-comments'>" +
+                           "                                    <textarea  class='comment-box form-control mb-3' rows='2'  ></textarea>" +
+                           "                        </div>" +
+                           "                        <ul id='comments'>" +
+                           "                        </ul>" +
+                           "                    </div>");
                        $.each(data[1], function(i, todo) {
-                            $('#list-todos').html("<li class='task-row' data-id='"+data[1].id+"'>" +
-                                "   <textarea readonly class='card-task form-control' data-id='"+data[1].id+"'>"+todo.content+"</textarea>" +
-                                "   <a class='delete-task'  data-id='"+data[1].id+"'><i  class='far fa-trash-alt fa-sm'></i></a>" +
+                            $('#list-todos').append("<li class='todo-row' data-id='"+todo.id+"'>" +
+                                "   <textarea readonly class='card-todo form-control' data-id='"+todo.id+"'>"+todo.content+"</textarea>" +
+                                "   <a class='delete-todo'  data-id='"+todo.id+"'><i  class='far fa-trash-alt fa-sm'></i></a>" +
                                 "   </li>");
                        });
-                       $.each(data[1], function(i, todo) {
-                          $('#comments').html("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+todo.name+"</span><br><p>"+todo.content+"</p></span></div></li>");
+                       $.each(data[0][0].comments, function(i, todo) {
+                           console.log(todo.user.name);
+                          $('#comments').append("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+todo.user.name+"</span><br><p>"+todo.content+"</p></span></div></li>");
                        });
-
                    }
                });
             });
+            //even view update task
+            $(document).on('click','#task-title',function(){
+                $('.edit-area').attr('readonly');
+                $('.edit-area').removeClass('onclick');
+                $('#area-temp').remove();
+                var task_id = $(this).attr('data-id');
+                $('.action-row').remove();//hide btn save and cancel another
+                $(this).removeAttr('readonly');
+                $(this).addClass('onclick');//style on focus textarea
+                $(this).parent().append("<div class='action-row my-2'><a class='btn btn-sm btn-primary  p-x-5 mx-1' id='btn-update-task' data-id='"+task_id+"'>Lưu</a>" +
+                    "<a  class='cancel btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a></div>");
+            });
+            //even update task
+            $(document).on('click','#btn-update-task',function(){
+                var name = $('#task-title').val();
+                var task_id = $(this).attr('data-id');
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('updatetask') }}',
+                    data:{name :name,task_id:task_id},
+                    datatype:'json',
+                    success: function(data) {
+                        console.log(data);
+                        $('#task-title').removeClass('onclick');
+                        $('#task-title').attr({'readonly':true});
+                        $('.action-row').remove();
+                    }
+                });
+            });
+
+            //even onclick content todos
+            $(document).on('click','.card-todo[readonly]',function(){
+                $('.card-todo').attr('readonly');
+                $('.card-todo').removeClass('onclick');
+                var todo_id = $(this).attr('data-id');
+                $('.action-row').remove();//hide btn save and cancel another
+                $(this).removeAttr('readonly');
+                $(this).addClass('onclick');//style on focus textarea
+                $(this).parent().append("<div class='action-row my-2'><a class='btn btn-sm btn-primary btn-update-todo p-x-5 mx-1' data-id='"+todo_id+"'>Lưu</a>" +
+                    "<a  class='cancel btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a></div>");
+            });
+
+            $(document).on('click','.btn-update-todo',function(){
+                var content = $(this).parents('li.todo-row').find('textarea.onclick').val();
+                var todo_id = $(this).attr('data-id');
+
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('updatetodo') }}',
+                    data:{content :content,todo_id:todo_id},
+                    datatype:'json',
+                    success: function(data) {
+                        console.log(data);
+                        $('.card-todo').removeClass('onclick');
+                        $('.card-todo').attr({'readonly':true});
+                        $('.action-row').remove();
+                    }
+                });
+            });
+
+            //even view create todo
+            $(document).on('click','.add-todo',function(){
+                var task_id = $('textarea#task-title').attr('data-id');
+                $('.edit-area').attr('readonly');
+                $('.edit-area').removeClass('onclick');
+                $('.action-row').remove();
+                $('a.add-todo').show();
+                $('#area-temp').remove();
+                $(this).hide();
+                $(this).parent().find('.list-group').append(
+                    "<li class='todo-row'>"+
+                    "<textarea  id='area-temp' class='card-todo form-control onclick'></textarea>" +
+                    "<div class='action-row my-2'>" +
+                    "<a id='save-todo' class='btn btn-sm btn-primary  p-x-5 mx-1' data-id='"+task_id+"'>Lưu</a>" +
+                    "<a  class='cancel btn btn-sm btn-grey p-x-5 mx-1'>Hủy</a>"+
+                    "</div>"+
+                    "</li>"
+                );
+            });
+            // save todo
+            $(document).on('click','#save-todo',function(){
+                var task_id = $(this).attr('data-id');
+                var content = $('textarea.onclick').val();
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('createtodo') }}',
+                    data:{content :content,task_id:task_id},
+                    datatype:'json',
+                    success: function(data) {
+                        $('.card-todo').removeClass('onclick');
+                        $('.card-todo').attr({'readonly':true});
+                        $('.action-row').remove();
+                        $('#area-temp').remove();
+                        $('a.add-todo').show();
+                        $('#list-todos').append("<li class='todo-row' data-id='"+data.id+"'>" +
+                            "   <textarea readonly class='card-todo form-control' data-id='"+data.id+"'>"+data.content+"</textarea>" +
+                            "   <a class='delete-todo'  data-id='"+data.id+"'><i  class='far fa-trash-alt fa-sm'></i></a>" +
+                            "   </li>");
+                    }
+                });
+            });
+            $(document).on('click','.delete-todo',function(){
+                var todo_id = $(this).attr('data-id');
+                $.ajax({
+                    type:'POST',
+                    url: '{{ route('deletetodo') }}',
+                    data:{todo_id :todo_id},
+                    datatype:'json',
+                    success: function(data) {
+                        $("li.todo-row[data-id='"+todo_id+"']").remove();
+                    }
+                });
+            });
+            $(document).on('keypress','textarea.comment-box',function(e){
+                var keycode = (e.keyCode ? e.keyCode : e.which);
+                if(keycode == '13'){
+                    var comment = $(this).val();
+                    $(this).blur();
+                    $(this).val("");
+                    var task_id = $('textarea#task-title').attr('data-id');
+                    $.ajax({
+                        type:'POST',
+                        url: '{{ route('comment') }}',
+                        data:{comment :comment,task_id:task_id},
+                        datatype:'json',
+                        success: function(data) {
+                            console.log(data);
+                            $('#comments').append("<li><div class='user-cmt'><img src='{{asset('')}}/Images/favicon.png' width='30px' height='30px'><span><span> "+data[0].user.name+"</span><br><p>"+data[0].content+"</p></span></div></li>");
+                        }
+                    });
+
+                }
+            });
+
         });
     </script>
 @endsection

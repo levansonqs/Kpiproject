@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     public function tasks(){
-        return $this->hasMany('App\Task');
+        return $this->belongsToMany('App\Task');
     }
     public function members(){
         return $this->hasMany('App\Member');

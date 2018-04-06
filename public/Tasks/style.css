@@ -26,7 +26,7 @@ textarea.card-title{
     word-wrap: break-word;
 }
 
-textarea.card-task{
+textarea.card-task, textarea.card-todo{
     margin: 5px 0px  !important;
     padding: 5px 5px 0px  !important;
     cursor: pointer ;
@@ -51,10 +51,10 @@ a.action{
     right: 5px;
     font-size: 1.5rem;
 }
-li.task-row{
+li.task-row,li.todo-row{
     position: relative;
 }
-.delete-task{
+.delete-task,.delete-todo{
     position: absolute;
     top: 5px;
     right: 5px;

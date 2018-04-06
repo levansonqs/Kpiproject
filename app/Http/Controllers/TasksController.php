@@ -9,7 +9,7 @@ class TasksController extends Controller
 {
     public function detailTask(Request $request){
         if($request->ajax()){
-            $task = Task::where('id',$request->task_id)->with('comments')->get();
+            $task = Task::where('id',$request->task_id)->with(['comments.user'])->get();
             $todos = Todo::where('task_id',$request->task_id)->get();
             $data = [$task,$todos];
         }
@@ -26,7 +26,12 @@ class TasksController extends Controller
         return response()->json($task);
     }
     public function updateTask(Request $request){
-
+        if($request->ajax()){
+            $task = Task::findOrFail($request->task_id);
+            $task->title = $request->name;
+            $task->save();
+        }
+        return response()->json($task);
     }
     public function deleteTask(Request $request){
         if($request->ajax()) {
